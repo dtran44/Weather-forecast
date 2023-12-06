@@ -1,0 +1,28 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #FBFCFE;
+    background-image: url(background1.jpg);
+    background-size: cover;
+    height: 100vh;
+  
+  }
+  /* === HEADER === */
+  
+  /* Style the header with font and colors */
+  .header {
+    padding: 20px;
+    background-color: #264348;
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    font-size: 250%;
+    
+  }
+
+/* Style the header with font and colors */
+    .search.h3 {
+        padding: 50px;
+        color: whitesmoke;
+      }
+
+      

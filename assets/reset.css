@@ -1,0 +1,27 @@
+/* resets browser settings */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family:'Roboto', sans-serif;
+}
+
+ /* media query for mobiles */
+@media screen and (max-width: 480px) {
+    body {
+      flex-direction: column;
+    }
+  }
+  /* media query for tablets */
+    @media screen and (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+    }
+  
+  /* media query for larger screens */
+  @media screen and (min-width: 992px) {
+    body {
+        flex-direction: column;
+      }
+  }

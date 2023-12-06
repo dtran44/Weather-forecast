@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Code-Quiz</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    
+
+  </head>
+  <body>
+
+     <!-- Header -->
+    <header>
+        <section class="header">
+        <h1>Weather Dashboard</h1>
+    </header>
+
+
+    <!-- Search section -->
+<section>
+    <section id = "search" class = "search"></section>
+    <form id="city-form" class="card-body">
+        <h3>Search for a City:</h3>
+        <label class="form-label" for="city"></label>
+        <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+        <button type="searchBtn" class="btn">Search</button>
+      </form>
+</section>
+
+<!-- Search History -->
+<section>
+    <div class="history" id="history"></div>
+</section>
+
+    <!-- Current forecast -->
+<section>
+    <div class="currentForecast" id="currentForecast"></div>
+</section>
+
+
+    <!-- 5 Day forecast -->
+<section>
+    <h3>5-day Forecast:</h3>
+    <div class="fiveForecast" id="fiveForecast"></div>
+</section>
+
+<script src="./assets/script.js"></script>
+
+</body>
+    </html>
