@@ -24,6 +24,26 @@ const formSubmitHandler = function(event) {
 
   printCity(cityInput);
   
+  historyEl.addEventListener('click', event => {
+    if (event.target && event.target.nodeName === 'LI') {
+      const selectedCity = event.target.textContent.trim();
+      if (selectedCity) {
+        getGeoLocation(selectedCity)
+          .then(locationData => {
+            const { lat, lon } = locationData[0];
+            return Promise.all([getFiveForecast(lat, lon), getCurrentForecast(lat, lon)]);
+          })
+          .then(([fiveDayData, currentDayData]) => {
+            displayFiveDayForecast(fiveDayData); // Display the five-day forecast
+            displayCurrentDayForecast(currentDayData); // Display the current day's forecast
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error fetching the forecast.');
+          });
+      }
+    }
+  });
   
   if (cityInput) {
     getGeoLocation(cityInput)
@@ -93,7 +113,8 @@ function displayCurrentDayForecast(currentDayData) {
     const description = currentDayData.weather[0].description;
     const windSpeed = currentDayData.wind.speed;
     const humidity = currentDayData.main.humidity;
-  
+    const weatherIcon = currentDayData.weather[0].icon;
+
     // Create HTML elements to display the current day's forecast
     const currentForecastElement = document.createElement('div');
     currentForecastElement.classList.add('current-forecast-item');
@@ -112,6 +133,10 @@ function displayCurrentDayForecast(currentDayData) {
   
     const humidityElement = document.createElement('p');
     humidityElement.textContent = `Humidity: ${humidity}%`;
+
+    const iconElement = document.createElement('img');
+    iconElement.src = `https://openweathermap.org/img/w/${weatherIcon}.png`; // Use HTTPS for the icon URL
+    iconElement.alt = 'Weather Icon';
   
     // Append elements to the current day forecast container
     currentForecastElement.appendChild(dateElement);
@@ -119,10 +144,11 @@ function displayCurrentDayForecast(currentDayData) {
     currentForecastElement.appendChild(descElement);
     currentForecastElement.appendChild(windElement);
     currentForecastElement.appendChild(humidityElement);
-  
+    currentForecastElement.appendChild(iconElement);
+    
     // Update the HTML content
     currentForecastEl.appendChild(currentForecastElement);
-  }
+}
   
 
   // Displays Five Day Forecast from tomorrow 
@@ -143,7 +169,10 @@ function displayFiveDayForecast(fiveDayData) {
       const dayForecasts = groupedForecasts[day];
       const averageTemp = calculateAverageTemperature(dayForecasts);
       const description = dayForecasts[0].weather[0].description; // Taking the description from the first forecast of the day
-  
+      const windSpeed = calculateAverageWindSpeed(dayForecasts);
+      const humidity = calculateAverageHumidity(dayForecasts);
+      const weatherIcon = dayForecasts[0].weather[0].icon; 
+
       // Create elements to display the forecast information
       const forecastElement = document.createElement('div');
       forecastElement.classList.add('forecast-item');
@@ -157,11 +186,24 @@ function displayFiveDayForecast(fiveDayData) {
       const descElement = document.createElement('p');
       descElement.textContent = `Description: ${description}`; // Display weather description
   
+      const windElement = document.createElement('p');
+      windElement.textContent = `Wind Speed: ${windSpeed.toFixed(1)} m/s`; // Display average wind speed
+
+      const humidityElement = document.createElement('p');
+      humidityElement.textContent = `Humidity: ${humidity.toFixed(0)}%`; // Display average humidity
+      
+      const iconElement = document.createElement('img');
+      iconElement.src = `http://openweathermap.org/img/w/${weatherIcon}.png`; // Set the icon based on the code
+      iconElement.alt = 'Weather Icon'; 
+
       // Append elements to the forecast container
       forecastElement.appendChild(dateElement);
       forecastElement.appendChild(tempElement);
       forecastElement.appendChild(descElement);
-  
+      forecastElement.appendChild(windElement);
+      forecastElement.appendChild(humidityElement);
+      forecastElement.appendChild(iconElement);
+
       forecastContainer.appendChild(forecastElement);
     });
   }
@@ -187,6 +229,16 @@ function displayFiveDayForecast(fiveDayData) {
     return total / temperatures.length;
   }
   
+function calculateAverageWindSpeed(forecasts) {
+  const windSpeeds = forecasts.map(forecast => forecast.wind.speed);
+  const total = windSpeeds.reduce((acc, speed) => acc + speed, 0);
+  return total / windSpeeds.length;
+}
 
+function calculateAverageHumidity(forecasts) {
+  const humidities = forecasts.map(forecast => forecast.main.humidity);
+  const total = humidities.reduce((acc, humidity) => acc + humidity, 0);
+  return total / humidities.length;
+}
 
   
