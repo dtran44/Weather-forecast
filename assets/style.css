@@ -20,9 +20,88 @@ body {
   }
 
 /* Style the header with font and colors */
-    .search.h3 {
-        padding: 50px;
-        color: whitesmoke;
+ .search.h3 {
+    padding: 50px;
+    color: whitesmoke;
       }
 
+
+    /* Style the main container with flex and background color */
+  .main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .search-container {
+    flex: 0 0 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    margin-bottom: 50px;
+    font-size: 150%;
+}
+
+      .card-body {
+        padding: 2.5%;
+      }
+
+      .history-container {
+        flex: 0 0 100%; 
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        margin-bottom: 50px;
+        font-size: 150%;
+          }
+
+      .btn {
+        font-size: 1.3rem;
+        text-decoration:none;
+        padding: 6px 5px;
+        width: 100%;
+        display: block;
+        margin: 5px 0;
+        border-radius: var(--border-radius);
+        color: var(--primary);
+        border: none;
+        outline: none;
+        background-color: var(--light-dark);
+        box-shadow: 3px 3px var(--dark);
+        transform: translate(-1px, -1px);
+      }
       
+      .current-container {
+        flex: 0 0 65%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-size: 150%;
+        
+      }
+
+      .forecast-container {
+        flex: 0 0 65%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-size: 150%;
+      }
+
+      .forecast-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-bottom: 20px;
+      }
+      
+      /* Style individual forecast elements as needed */
+      .forecast-item p {
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+
+      }
+    

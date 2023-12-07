@@ -19,9 +19,12 @@
         <h1>Weather Dashboard</h1>
     </header>
 
+<!-- The main contents section -->
+<div class="main-container">
 
     <!-- Search section -->
-<section>
+
+<section class="search-container">
     <section id = "search" class = "search"></section>
     <form id="city-form" class="card-body">
         <h3>Search for a City:</h3>
@@ -32,21 +35,23 @@
 </section>
 
 <!-- Search History -->
-<section>
+<section class ="history-container">
     <div class="history" id="history"></div>
 </section>
 
     <!-- Current forecast -->
-<section>
+<section class="current-container">
     <div class="currentForecast" id="currentForecast"></div>
 </section>
 
 
     <!-- 5 Day forecast -->
-<section>
+<section class ="forecast-container">
     <h3>5-day Forecast:</h3>
     <div class="fiveForecast" id="fiveForecast"></div>
 </section>
+
+</div>
 
 <script src="./assets/script.js"></script>
 
