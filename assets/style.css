@@ -34,7 +34,7 @@ body {
   }
 
   .search-container {
-    flex: 0 0 100%; 
+    flex: 0 0 25%; 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -43,17 +43,24 @@ body {
     font-size: 150%;
 }
 
+ 
+.current-container {
+  flex: 0 0 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 150%;
+  
+}
+
       .card-body {
         padding: 2.5%;
       }
 
       .history-container {
-        flex: 0 0 100%; 
+        flex: 0 0 25%; 
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 20px;
-        margin-bottom: 50px;
         font-size: 150%;
           }
 
@@ -72,21 +79,12 @@ body {
         box-shadow: 3px 3px var(--dark);
         transform: translate(-1px, -1px);
       }
-      
-      .current-container {
-        flex: 0 0 65%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        font-size: 150%;
-        
-      }
-
+     
       .forecast-container {
-        flex: 0 0 65%;
+        flex: 0 0 75%;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: center;
         font-size: 150%;
       }
 
@@ -105,3 +103,16 @@ body {
 
       }
     
+      /* Apply flexbox properties to the day containers to display them in a row */
+#fiveForecast {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Style the day container */
+.day-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px;
+  width: 200px; /* Adjust width as needed */
+}

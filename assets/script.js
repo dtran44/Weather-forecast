@@ -44,7 +44,7 @@ const formSubmitHandler = function(event) {
       }
     }
   });
-  
+
   if (cityInput) {
     getGeoLocation(cityInput)
       .then(locationData => {
@@ -154,59 +154,62 @@ function displayCurrentDayForecast(currentDayData) {
   // Displays Five Day Forecast from tomorrow 
 
 function displayFiveDayForecast(fiveDayData) {
-    const forecastContainer = document.querySelector('#fiveForecast');
-  
-    // Clear previous content
-    forecastContainer.innerHTML = '';
-  
-    // Group forecasts by day starting from tomorrow
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1); // Get tomorrow's date
-    const groupedForecasts = groupForecastsByDay(fiveDayData.list, tomorrow);
-  
-    // Display one set of weather information for each day
-    Object.keys(groupedForecasts).forEach(day => {
-      const dayForecasts = groupedForecasts[day];
-      const averageTemp = calculateAverageTemperature(dayForecasts);
-      const description = dayForecasts[0].weather[0].description; // Taking the description from the first forecast of the day
-      const windSpeed = calculateAverageWindSpeed(dayForecasts);
-      const humidity = calculateAverageHumidity(dayForecasts);
-      const weatherIcon = dayForecasts[0].weather[0].icon; 
+  const forecastContainer = document.querySelector('#fiveForecast');
 
-      // Create elements to display the forecast information
-      const forecastElement = document.createElement('div');
-      forecastElement.classList.add('forecast-item');
-  
-      const dateElement = document.createElement('p');
-      dateElement.textContent = new Date(dayForecasts[0].dt * 1000).toDateString(); // Format date as needed
-  
-      const tempElement = document.createElement('p');
-      tempElement.textContent = `Temperature: ${averageTemp.toFixed(1)}°C`; // Display average temperature
-  
-      const descElement = document.createElement('p');
-      descElement.textContent = `Description: ${description}`; // Display weather description
-  
-      const windElement = document.createElement('p');
-      windElement.textContent = `Wind Speed: ${windSpeed.toFixed(1)} m/s`; // Display average wind speed
+  // Clear previous content
+  forecastContainer.innerHTML = '';
 
-      const humidityElement = document.createElement('p');
-      humidityElement.textContent = `Humidity: ${humidity.toFixed(0)}%`; // Display average humidity
-      
-      const iconElement = document.createElement('img');
-      iconElement.src = `http://openweathermap.org/img/w/${weatherIcon}.png`; // Set the icon based on the code
-      iconElement.alt = 'Weather Icon'; 
+  // Group forecasts by day starting from tomorrow
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1); // Get tomorrow's date
+  const groupedForecasts = groupForecastsByDay(fiveDayData.list, tomorrow);
 
-      // Append elements to the forecast container
-      forecastElement.appendChild(dateElement);
-      forecastElement.appendChild(tempElement);
-      forecastElement.appendChild(descElement);
-      forecastElement.appendChild(windElement);
-      forecastElement.appendChild(humidityElement);
-      forecastElement.appendChild(iconElement);
+  // Display one set of weather information for each day
+  Object.keys(groupedForecasts).forEach(day => {
+    const dayForecasts = groupedForecasts[day];
+    const averageTemp = calculateAverageTemperature(dayForecasts);
+    const description = dayForecasts[0].weather[0].description;
+    const windSpeed = calculateAverageWindSpeed(dayForecasts);
+    const humidity = calculateAverageHumidity(dayForecasts);
+    const weatherIcon = dayForecasts[0].weather[0].icon;
 
-      forecastContainer.appendChild(forecastElement);
-    });
-  }
+    // Create a container for each day's forecast details
+    const dayContainer = document.createElement('div');
+    dayContainer.classList.add('day-container');
+
+    // Create elements to display the forecast information for each day
+    const dateElement = document.createElement('p');
+    dateElement.textContent = new Date(dayForecasts[0].dt * 1000).toDateString();
+
+    const tempElement = document.createElement('p');
+    tempElement.textContent = `Temperature: ${averageTemp.toFixed(1)}°C`;
+
+    const descElement = document.createElement('p');
+    descElement.textContent = `Description: ${description}`;
+
+    const windElement = document.createElement('p');
+    windElement.textContent = `Wind Speed: ${windSpeed.toFixed(1)} m/s`;
+
+    const humidityElement = document.createElement('p');
+    humidityElement.textContent = `Humidity: ${humidity.toFixed(0)}%`;
+
+    const iconElement = document.createElement('img');
+    iconElement.src = `http://openweathermap.org/img/w/${weatherIcon}.png`;
+    iconElement.alt = 'Weather Icon';
+
+    // Append forecast elements to the day container
+    dayContainer.appendChild(dateElement);
+    dayContainer.appendChild(tempElement);
+    dayContainer.appendChild(descElement);
+    dayContainer.appendChild(windElement);
+    dayContainer.appendChild(humidityElement);
+    dayContainer.appendChild(iconElement);
+
+    // Append each day's container to the forecast container
+    forecastContainer.appendChild(dayContainer);
+  });
+}
+
   
   function groupForecastsByDay(forecasts, startDate) {
     const grouped = {};
