@@ -2,21 +2,38 @@ const APIkey = '43df22ce1c12a61a731c8b2fb38e3be0';
 const cityInputEl = document.querySelector('#city');
 const historyEl = document.querySelector('#history');
 const fiveDayForecastEl = document.querySelector('#fiveForecast');
+const currentForecastEl = document.querySelector('#currentForecast');
 
 const formSubmitHandler = function(event) {
   event.preventDefault();
 
   const cityInput = cityInputEl.value.trim();
 
+  var printCity = function(city) {
+    var listEl = document.createElement('li'); 
+    listEl.classList.add('list-group-item'); 
+    listEl.textContent = city; 
+    
+    historyEl.appendChild(listEl); 
+  };
+
+  if (!cityInput) {
+    console.log('You need to fill out the form!');
+    return;
+  }
+
+  printCity(cityInput);
+  
+  
   if (cityInput) {
     getGeoLocation(cityInput)
       .then(locationData => {
         const { lat, lon } = locationData[0];
-        return getFiveForecast(lat, lon);
+        return Promise.all([getFiveForecast(lat, lon), getCurrentForecast(lat, lon)]);
       })
-      .then(fiveDayData => {
-        // Process the five-day forecast data and display it
-        displayFiveDayForecast(fiveDayData);
+      .then(([fiveDayData, currentDayData]) => {
+        displayFiveDayForecast(fiveDayData); // Display the five-day forecast
+        displayCurrentDayForecast(currentDayData); // Display the current day's forecast
       })
       .catch(error => {
         console.error('Error:', error);
@@ -27,6 +44,17 @@ const formSubmitHandler = function(event) {
   }
 };
 
+function getCurrentForecast(lat, lon) {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`;
+  
+    return fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        return response.json();
+      });
+  }
 
 function getFiveForecast(lat, lon) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}`;
@@ -57,60 +85,43 @@ function getGeoLocation(cityName) {
 const cityForm = document.querySelector('#city-form');
 cityForm.addEventListener('submit', formSubmitHandler);
 
-
-// Displays Current Day Forecast
-function displayCurrentDayForecast(fiveDayData) {
-    const currentForecastContainer = document.querySelector('#currentForecast');
+// Function to display the current day's forecast
+function displayCurrentDayForecast(currentDayData) {
+    currentForecastEl.innerHTML = ''; // Clear previous content
     
-    // Clear previous content
-    currentForecastContainer.innerHTML = '';
+    const temperature = currentDayData.main.temp - 273.15; // Convert temperature from Kelvin to Celsius
+    const description = currentDayData.weather[0].description;
+    const windSpeed = currentDayData.wind.speed;
+    const humidity = currentDayData.main.humidity;
   
-    // Get today's date in the format "YYYY-MM-DD" for comparison
-    const today = new Date().toISOString().split('T')[0];
+    // Create HTML elements to display the current day's forecast
+    const currentForecastElement = document.createElement('div');
+    currentForecastElement.classList.add('current-forecast-item');
   
-    // Find the forecast for the current day
-    const currentDayForecast = fiveDayData.list.find(forecast => {
-      const forecastDate = new Date(forecast.dt * 1000).toISOString().split('T')[0];
-      return forecastDate === today;
-    });
+    const dateElement = document.createElement('p');
+    dateElement.textContent = 'Today';
   
-    if (currentDayForecast) {
-      const temperature = currentDayForecast.main.temp;
-      const description = currentDayForecast.weather[0].description;
-      const windSpeed = currentDayForecast.wind.speed;
-      const humidity = currentDayForecast.main.humidity;
+    const tempElement = document.createElement('p');
+    tempElement.textContent = `Temperature: ${temperature.toFixed(1)}°C`;
   
-      // Create HTML elements to display the current day's forecast
-      const currentForecastElement = document.createElement('div');
-      currentForecastElement.classList.add('current-forecast-item');
+    const descElement = document.createElement('p');
+    descElement.textContent = `Description: ${description}`;
   
-      const dateElement = document.createElement('p');
-      dateElement.textContent = 'Today';
+    const windElement = document.createElement('p');
+    windElement.textContent = `Wind Speed: ${windSpeed} m/s`;
   
-      const tempElement = document.createElement('p');
-      tempElement.textContent = `Temperature: ${temperature.toFixed(1)}°C`;
+    const humidityElement = document.createElement('p');
+    humidityElement.textContent = `Humidity: ${humidity}%`;
   
-      const descElement = document.createElement('p');
-      descElement.textContent = `Description: ${description}`;
+    // Append elements to the current day forecast container
+    currentForecastElement.appendChild(dateElement);
+    currentForecastElement.appendChild(tempElement);
+    currentForecastElement.appendChild(descElement);
+    currentForecastElement.appendChild(windElement);
+    currentForecastElement.appendChild(humidityElement);
   
-      const windElement = document.createElement('p');
-      windElement.textContent = `Wind Speed: ${windSpeed} m/s`;
-  
-      const humidityElement = document.createElement('p');
-      humidityElement.textContent = `Humidity: ${humidity}%`;
-  
-      // Append elements to the current day forecast container
-      currentForecastElement.appendChild(dateElement);
-      currentForecastElement.appendChild(tempElement);
-      currentForecastElement.appendChild(descElement);
-      currentForecastElement.appendChild(windElement);
-      currentForecastElement.appendChild(humidityElement);
-  
-      // Update the HTML content
-      currentForecastContainer.appendChild(currentForecastElement);
-    } else {
-      currentForecastContainer.textContent = 'No data available for today.';
-    }
+    // Update the HTML content
+    currentForecastEl.appendChild(currentForecastElement);
   }
   
 
@@ -171,7 +182,7 @@ function displayFiveDayForecast(fiveDayData) {
   }
   
   function calculateAverageTemperature(forecasts) {
-    const temperatures = forecasts.map(forecast => forecast.main.temp);
+    const temperatures = forecasts.map(forecast => forecast.main.temp - 273.15); // Convert Kelvin to Celsius
     const total = temperatures.reduce((acc, temp) => acc + temp, 0);
     return total / temperatures.length;
   }
