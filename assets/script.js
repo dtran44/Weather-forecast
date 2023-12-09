@@ -32,6 +32,13 @@ function displayStoredCities() {
 // Display stored cities when the page loads
 displayStoredCities();
 
+function displayCurrentCity() {
+  document.getElementById("currentCity").textContent = cityInput;}
+  
+  if (cityInput) {
+    displayCurrentCity(cityInput); // Call displayCurrentCity with cityInput as a parameter
+  }
+
 // Event listener for clicking a city in the history
 historyEl.addEventListener('click', event => {
   if (event.target && event.target.nodeName === 'LI') {
@@ -57,12 +64,12 @@ historyEl.addEventListener('click', event => {
   if (cityInput) {
     getGeoLocation(cityInput)
       .then(locationData => {
-        const { lat, lon } = locationData[0];
-        return Promise.all([getFiveForecast(lat, lon), getCurrentForecast(lat, lon)]);
+        const { lat, lon} = locationData[0];
+        return Promise.all([getFiveForecast(lat, lon), getCurrentForecast(lat, lon)]); // Pass cityName
       })
       .then(([fiveDayData, currentDayData]) => {
         displayFiveDayForecast(fiveDayData); // Display the five-day forecast
-        displayCurrentDayForecast(currentDayData); // Display the current day's forecast
+        displayCurrentDayForecast(currentDayData); // Pass cityName to displayCurrentDayForecast
       })
       .catch(error => {
         console.error('Error:', error);
@@ -106,8 +113,13 @@ function getGeoLocation(cityName) {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
       return response.json();
+    })
+    .then(locationData => {
+      console.log('Location Data:', locationData); // Add this line to check the retrieved data
+      return locationData;
     });
 }
+
 
 
 // Event listener for form submission
@@ -124,6 +136,8 @@ function displayCurrentDayForecast(currentDayData) {
     const humidity = currentDayData.main.humidity;
     const weatherIcon = currentDayData.weather[0].icon;
 
+   
+    
     // Create HTML elements to display the current day's forecast
     const currentForecastElement = document.createElement('div');
     currentForecastElement.classList.add('current-forecast-item');
@@ -157,6 +171,8 @@ function displayCurrentDayForecast(currentDayData) {
     
     // Update the HTML content
     currentForecastEl.appendChild(currentForecastElement);
+
+   
 }
   
 
@@ -170,10 +186,10 @@ function displayCurrentDayForecast(currentDayData) {
     
     // Group forecasts by day starting from tomorrow
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1); // Get tomorrow's date
+    tomorrow.setDate(tomorrow.getDate() + 1); 
     
     const fiveDaysLater = new Date(tomorrow);
-    fiveDaysLater.setDate(fiveDaysLater.getDate() + 4); // Get 5 days later
+    fiveDaysLater.setDate(fiveDaysLater.getDate() + 4); 
     
     const groupedForecasts = groupForecastsByDay(fiveDayData.list, tomorrow, fiveDaysLater);
     

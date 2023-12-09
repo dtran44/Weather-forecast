@@ -9,110 +9,131 @@ body {
   /* === HEADER === */
   
   /* Style the header with font and colors */
-  .header {
-    padding: 20px;
-    background-color: #264348;
-    color: whitesmoke;
-    display: flex;
-    justify-content: center;
-    font-size: 250%;
-    
-  }
 
-/* Style the header with font and colors */
- .search.h3 {
-    padding: 50px;
-    color: whitesmoke;
-      }
+.header {
+  padding: 20px;
+  background-color: #264348;
+  color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  font-size: 250%;
 
-
-    /* Style the main container with flex and background color */
-  .main-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .search-container {
-    flex: 0 0 25%; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    margin-bottom: 50px;
-    font-size: 150%;
 }
 
- 
+  /* Style the main container with flex and background color */
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  }
+
+/* Style the search container & elements with styling */
+
+.search-container {
+  flex: 0 0 25%; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  margin-bottom: 50px;
+  font-size: 150%;
+}
+
+.form-input {
+  width: 100%;
+  padding: 3%;
+  margin: 5px 0;
+  font-size: 1.2rem;
+  border: 2px solid var(--light-dark);
+  border-radius: var(--border-radius);
+}
+
+.btn {
+font-size: 1.3rem;
+text-decoration:none;
+padding: 6px 5px;
+width: 100%;
+display: block;
+margin: 5px 0;
+border-radius: var(--border-radius);
+color: whitesmoke;
+border: 2px solid var(--light-dark);
+background-color: #264348;
+box-shadow: 3px 3px var(--dark);
+transform: translate(-1px, -1px);
+}
+
+.btn:hover {
+  color: lightblue;
+  transform: translate(0, 0);
+  box-shadow: 2px 2px var(--dark);
+}
+
+/* Style button hover with a shadow */
+.btn:hover,
+.btn:hover:hover.btn {
+  box-shadow: inset 0px 0px 8px rgb(228, 175, 96), 0 0 15px rgb(228, 175, 96);
+}
+
+
+.card-body {
+padding: 2.5%;
+}
+
+/* Style the current container with flex and styling */
 .current-container {
+flex: 0 0 75%;
+display: flex;
+flex-direction: column;
+align-items: center;
+font-size: 150%;
+padding: 5%;
+}
+
+/* Style the history container with flex and styling */ 
+
+.history-container {
+flex: 0 0 25%; 
+display: flex;
+flex-direction: column;
+font-size: 150%;
+  }
+
+/* Style the forecast container with flex and styling */ 
+.forecast-container.h3 {
+font-size: 150%;
+
+}  
+
+.forecast-container {
   flex: 0 0 75%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 150%;
-  
+  font-size: 100%;
 }
 
-      .card-body {
-        padding: 2.5%;
-      }
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
 
-      .history-container {
-        flex: 0 0 25%; 
-        display: flex;
-        flex-direction: column;
-        font-size: 150%;
-          }
-
-      .btn {
-        font-size: 1.3rem;
-        text-decoration:none;
-        padding: 6px 5px;
-        width: 100%;
-        display: block;
-        margin: 5px 0;
-        border-radius: var(--border-radius);
-        color: var(--primary);
-        border: none;
-        outline: none;
-        background-color: var(--light-dark);
-        box-shadow: 3px 3px var(--dark);
-        transform: translate(-1px, -1px);
-      }
-     
-      .forecast-container {
-        flex: 0 0 75%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: 150%;
-      }
-
-      .forecast-item {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        margin-bottom: 20px;
-      }
-      
-      /* Style individual forecast elements as needed */
-      .forecast-item p {
-        margin: 5px;
-        display: flex;
-        flex-direction: column;
-
-      }
+.forecast-item p {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+}
     
-      /* Apply flexbox properties to the day containers to display them in a row */
 #fiveForecast {
   display: flex;
   flex-direction: row;
 }
 
-/* Style the day container */
 .day-container {
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   padding: 10px;
   margin: 5px;
-  width: 200px; /* Adjust width as needed */
+  width: 150px; 
 }
