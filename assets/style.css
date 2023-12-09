@@ -55,11 +55,9 @@ padding: 6px 5px;
 width: 100%;
 display: block;
 margin: 5px 0;
-border-radius: var(--border-radius);
+border-radius: 5px;
 color: whitesmoke;
-border: 2px solid var(--light-dark);
 background-color: #264348;
-box-shadow: 3px 3px var(--dark);
 transform: translate(-1px, -1px);
 }
 
@@ -99,11 +97,28 @@ flex-direction: column;
 font-size: 150%;
   }
 
-/* Style the forecast container with flex and styling */ 
-.forecast-container.h3 {
-font-size: 150%;
+.list-group {
+  list-style: none;
+  padding: 0;
+}
 
-}  
+.list-group-item {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  color: #fff;
+  background-color: #5AA5B0;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  margin: 5px;
+}
+
+.list-group-item:active {
+  background-color: #2980b9;
+}
+
+/* Style the forecast container with flex and styling */ 
 
 .forecast-container {
   flex: 0 0 75%;
@@ -120,11 +135,6 @@ font-size: 150%;
   margin-bottom: 20px;
 }
 
-.forecast-item p {
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
-}
     
 #fiveForecast {
   display: flex;

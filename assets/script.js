@@ -4,12 +4,14 @@ const historyEl = document.querySelector('#history');
 const fiveDayForecastEl = document.querySelector('#fiveForecast');
 const currentForecastEl = document.querySelector('#currentForecast');
 
+
 const formSubmitHandler = function(event) {
   event.preventDefault();
 
   const cityInput = cityInputEl.value.trim();
+  updateDisplayedCity(cityInput);
 
- // Function to store city in local storage
+// Function to store city in local storage
 function storeCity(city) {
   let storedCities = JSON.parse(localStorage.getItem('cities')) || [];
   storedCities.push(city);
@@ -32,12 +34,9 @@ function displayStoredCities() {
 // Display stored cities when the page loads
 displayStoredCities();
 
-function displayCurrentCity() {
-  document.getElementById("currentCity").textContent = cityInput;}
-  
-  if (cityInput) {
-    displayCurrentCity(cityInput); // Call displayCurrentCity with cityInput as a parameter
-  }
+function updateDisplayedCity(city) {
+  document.getElementById("currentCity").textContent = city;
+}
 
 // Event listener for clicking a city in the history
 historyEl.addEventListener('click', event => {
@@ -57,6 +56,7 @@ historyEl.addEventListener('click', event => {
           console.error('Error:', error);
           alert('There was an error fetching the forecast.');
         });
+        updateDisplayedCity(selectedCity);
       }
     }
   });
@@ -120,7 +120,10 @@ function getGeoLocation(cityName) {
     });
 }
 
-
+// Clear local storage when the window is loaded
+window.onload = function() {
+  localStorage.clear();
+}
 
 // Event listener for form submission
 const cityForm = document.querySelector('#city-form');
@@ -136,8 +139,6 @@ function displayCurrentDayForecast(currentDayData) {
     const humidity = currentDayData.main.humidity;
     const weatherIcon = currentDayData.weather[0].icon;
 
-   
-    
     // Create HTML elements to display the current day's forecast
     const currentForecastElement = document.createElement('div');
     currentForecastElement.classList.add('current-forecast-item');
@@ -171,11 +172,8 @@ function displayCurrentDayForecast(currentDayData) {
     
     // Update the HTML content
     currentForecastEl.appendChild(currentForecastElement);
-
-   
 }
   
-
   // Displays Five Day Forecast from tomorrow 
 
   function displayFiveDayForecast(fiveDayData) {
@@ -189,7 +187,7 @@ function displayCurrentDayForecast(currentDayData) {
     tomorrow.setDate(tomorrow.getDate() + 1); 
     
     const fiveDaysLater = new Date(tomorrow);
-    fiveDaysLater.setDate(fiveDaysLater.getDate() + 4); 
+    fiveDaysLater.setDate(fiveDaysLater.getDate() + 6); 
     
     const groupedForecasts = groupForecastsByDay(fiveDayData.list, tomorrow, fiveDaysLater);
     
@@ -239,7 +237,6 @@ function displayCurrentDayForecast(currentDayData) {
     });
   }
   
-  
   // Function to group forecasts by day within a date range
   function groupForecastsByDay(forecasts, startDate, endDate) {
     const grouped = {};
@@ -255,7 +252,6 @@ function displayCurrentDayForecast(currentDayData) {
     });
     return grouped;
   }
-  
   
   function calculateAverageTemperature(forecasts) {
     const temperatures = forecasts.map(forecast => forecast.main.temp - 273.15); // Convert Kelvin to Celsius
