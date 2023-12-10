@@ -4,7 +4,7 @@ const historyEl = document.querySelector('#history');
 const fiveDayForecastEl = document.querySelector('#fiveForecast');
 const currentForecastEl = document.querySelector('#currentForecast');
 
-
+// Function for when the user inputs city name and searches
 const formSubmitHandler = function(event) {
   event.preventDefault();
 
@@ -61,6 +61,7 @@ historyEl.addEventListener('click', event => {
     }
   });
 
+  // Promise to pass the latitude and longitude coordinates to the current day and five day forecast
   if (cityInput) {
     getGeoLocation(cityInput)
       .then(locationData => {
@@ -80,6 +81,7 @@ historyEl.addEventListener('click', event => {
   }
 };
 
+//Retrieve from API the current weather forecast based on latitude and longitude coordinates.
 function getCurrentForecast(lat, lon) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`;
   
@@ -91,7 +93,7 @@ function getCurrentForecast(lat, lon) {
         return response.json();
       });
   }
-
+//Retrieve from API the five day weather forecast based on latitude and longitude coordinates.
 function getFiveForecast(lat, lon) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}`;
 
@@ -104,6 +106,7 @@ function getFiveForecast(lat, lon) {
     });
 }
 
+//Retrieves latitude and longitude based on the city name searched by user
 function getGeoLocation(cityName) {
   const api = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${APIkey}`;
 
@@ -115,7 +118,7 @@ function getGeoLocation(cityName) {
       return response.json();
     })
     .then(locationData => {
-      console.log('Location Data:', locationData); // Add this line to check the retrieved data
+      console.log('Location Data:', locationData); 
       return locationData;
     });
 }
@@ -187,7 +190,7 @@ function displayCurrentDayForecast(currentDayData) {
     tomorrow.setDate(tomorrow.getDate() + 1); 
     
     const fiveDaysLater = new Date(tomorrow);
-    fiveDaysLater.setDate(fiveDaysLater.getDate() + 6); 
+    fiveDaysLater.setDate(fiveDaysLater.getDate() + 5); 
     
     const groupedForecasts = groupForecastsByDay(fiveDayData.list, tomorrow, fiveDaysLater);
     
@@ -253,22 +256,22 @@ function displayCurrentDayForecast(currentDayData) {
     return grouped;
   }
   
+  // Function to calculate average temp for the day
   function calculateAverageTemperature(forecasts) {
     const temperatures = forecasts.map(forecast => forecast.main.temp - 273.15); // Convert Kelvin to Celsius
     const total = temperatures.reduce((acc, temp) => acc + temp, 0);
     return total / temperatures.length;
   }
   
+  // Function to calculate average wind speed for the day
 function calculateAverageWindSpeed(forecasts) {
   const windSpeeds = forecasts.map(forecast => forecast.wind.speed);
   const total = windSpeeds.reduce((acc, speed) => acc + speed, 0);
   return total / windSpeeds.length;
 }
-
+  // Function to calculate average humidity for the day
 function calculateAverageHumidity(forecasts) {
   const humidities = forecasts.map(forecast => forecast.main.humidity);
   const total = humidities.reduce((acc, humidity) => acc + humidity, 0);
   return total / humidities.length;
 }
-
-  
