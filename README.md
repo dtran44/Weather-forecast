@@ -15,7 +15,7 @@ N/A
 
 Link: https://dtran44.github.io/Weather-forecast/
 
-Screenshot: 
+Screenshot: ![alt text](https://github.com/dtran44/Weather-forecast/blob/main/assets/Weather%20forecast%20screenshot.jpg)
 
 
 ## License
