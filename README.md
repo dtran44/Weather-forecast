@@ -24,9 +24,9 @@ N/A
 
 
 ## References
-"5 day weather forecast", (2023) https://docs.openweather.co.uk/forecast5
-"How to Use API Keys" (2023), https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys
-"Event: target property," https://developer.mozilla.org/en-US/docs/Web/API/Event/target
-"Window: load event," https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
-"Understanding JavaScript’s Array.Group and Array.GroupToMap" (2023), https://blog.logrocket.com/javascript-array-group-array-grouptomap/
-"Metric Conversions" https://www.metric-conversions.org/temperature/kelvin-to-celsius.htm
+- "5 day weather forecast", (2023) https://docs.openweather.co.uk/forecast5
+- "How to Use API Keys" (2023), https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys
+- "Event: target property," https://developer.mozilla.org/en-US/docs/Web/API/Event/target
+- "Window: load event," https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
+- "Understanding JavaScript’s Array.Group and Array.GroupToMap" (2023), https://blog.logrocket.com/javascript-array-group-array-grouptomap/
+- "Metric Conversions" https://www.metric-conversions.org/temperature/kelvin-to-celsius.htm
